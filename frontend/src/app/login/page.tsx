@@ -99,7 +99,6 @@ const Login = () => {
                 className="absolute inset-y-0 right-0 flex pt-0 pr-3 text-gray-600 align-middle"
                 onClick={togglePasswordVisibility}
               >
-                {" "}
                 {isPasswordVisible ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
