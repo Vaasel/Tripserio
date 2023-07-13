@@ -8,6 +8,6 @@ app.get("/",(req,res)=>{
 res.send("app is working")
 });
 // Load the /users routes
-app.use("/users", require("./routes/users.js"));
+app.use("/trips", require("./routes/trips.js"));
 
 app.listen(5001);
