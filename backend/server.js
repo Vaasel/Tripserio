@@ -18,6 +18,8 @@ app.use(cookieParser())
 
 //Routes
 app.use("/", userRouter)
+// Load the /trips routes
+app.use("/trips", require("./routes/trips.js"));
 
 
 
