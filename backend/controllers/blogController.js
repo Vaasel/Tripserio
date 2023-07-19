@@ -1,5 +1,4 @@
 const blogModel = require("../models/blogModel");
-const upload = require("../middlewares/multer");
 const successHandler = require("../utils/successHandler")
 
 function blogController() {

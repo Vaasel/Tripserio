@@ -34,7 +34,7 @@ const server = app.listen(process.env.PORT || 5000)
 
 
 process.on("uncaughtException", (error) => {
-    console.log(error.message);
+    console.log(error);
     console.log("shutting down the server due to exception")
     throw Error("i have an error")
     server.close(() => {
