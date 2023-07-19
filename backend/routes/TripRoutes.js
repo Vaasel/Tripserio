@@ -3,7 +3,7 @@ const router = express.Router();
 
 require("../db/conn.js");
 
-const trip = require("../models/Trip.js");
+const trip = require("../models/TripModel.js");
 
 router.get("/", async (req, res) => {
   try {
