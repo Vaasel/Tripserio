@@ -58,4 +58,8 @@ function blogController() {
     }
 }
 
+<<<<<<< HEAD
 module.exports = blogController;
+=======
+module.exports = blogController;
+>>>>>>> 72d223f8db0cc887a47542b846e397756ccffd9d
