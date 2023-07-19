@@ -2,13 +2,19 @@ const express = require("express");
 require("dotenv").config({ path: "./config/.env" });
 const app = express();
 const userRouter = require("./routes/userRoutes");
+const blogRouter = require("./routes/blogRoutes");
 const cookieParser = require("cookie-parser");
-const errorMiddleware = require("./middlewares/errorMiddleware")
+const errorMiddleware = require("./middlewares/errorMiddleware");
+const path = require("path");
+
+// cloudinary settings
+require("./middlewares/cloudinary");
 
 // database connection
 require("./db/conn.js")();
 
 //middlewares
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json())
 app.use(express.urlencoded({
     extended: true
@@ -17,7 +23,8 @@ app.use(cookieParser())
 
 
 //Routes
-app.use("/", userRouter)
+app.use("/user", userRouter)
+app.use("/blog", blogRouter)
 // Load the /trips routes
 app.use("/trips", require("./routes/TripRoutes.js"));
 
