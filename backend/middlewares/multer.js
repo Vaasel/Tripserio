@@ -5,15 +5,15 @@ const ErrorHandler = require("../utils/ErrorHandler")
 
 
 
-const publicDir = path.join(path.join(__dirname, ".."), "public");
+const assestsDir = path.join(path.join(__dirname, ".."), "assests");
 const upload = multer({
     storage: multer.diskStorage({
         destination(req, file, cb) {
             const fileType = file.mimetype.split("/")[0]
             if (fileType == "image") {
-                cb(null, `${publicDir}/image`)
+                cb(null, `${assestsDir}/image`)
             } else {
-                cb(null, `${publicDir}/video`)
+                cb(null, `${assestsDir}/video`)
             }
 
         },
