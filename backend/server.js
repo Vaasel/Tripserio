@@ -1,7 +1,9 @@
 const express = require("express");
-require("dotenv").config({ path: "./config/.env" });
+require("dotenv").config();
+
 const app = express();
 const userRouter = require("./routes/userRoutes");
+const tripRouter = require("./routes/TripRoutes.js");
 const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middlewares/errorMiddleware")
 
@@ -16,11 +18,13 @@ app.use(express.urlencoded({
 app.use(cookieParser())
 
 
-//Routes
-app.use("/", userRouter)
-// Load the /trips routes
-app.use("/trips", require("./routes/TripRoutes.js"));
 
+//Routes
+app.use("/user", userRouter)
+app.use("/trips", tripRouter)
+app.get("/",()=>{
+    res.send("app is working")
+})
 
 
 const server = app.listen(process.env.PORT || 5000)

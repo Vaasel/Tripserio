@@ -8,9 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
 
     "build": "npm install",
-
     "start": "node server",
     "dev": "nodemon server"
+
   },
   "author": "",
   "license": "ISC",
