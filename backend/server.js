@@ -22,7 +22,7 @@ app.use(cookieParser())
 //Routes
 app.use("/user", userRouter)
 app.use("/trips", tripRouter)
-app.get("/",()=>{
+app.get("/",(req,res)=>{
     res.send("app is working")
 })
 
