@@ -2,7 +2,7 @@ const blogModel = require("../models/blogModel");
 const successHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/ErrorHandler");
 const unlinkFile = require("../utils/unlinkFile");
-const { cloudinaryDeleter } = require("../middlewares/cloudinary");
+const { cloudinaryDeleter, cloudinaryUploader } = require("../middlewares/cloudinary");
 
 function blogController() {
 
@@ -32,10 +32,9 @@ function blogController() {
             }
         },
         async addBlog(req, res, next) {
-            const { text } = req.body;
-            const image = req.uploadedImage;
-            const video = req.uploadedVideo;
+
             try {
+
 
                 const blog = new blogModel({
                     text,
@@ -73,8 +72,58 @@ function blogController() {
 
         },
 
-        async editBlog(req, res) {
+        async editBlog(req, res, next) {
+            try {
+                const id = req.params.id;
+                const text = req.body.text;
+                const { image: imageFiles, video: videoFiles } = req.files;
 
+
+                let imageUrl;
+                let videoUrl;
+
+                let blog = await blogModel.findById(id);
+                if (!blog) {
+                    if (image) {
+                        await unlinkFile(image, "image");
+
+                    }
+
+                    if (video) {
+                        await unlinkFile(video, "video");
+
+                    }
+                    throw ErrorHandler(`Blog does not exist`, 401)
+                }
+                const { image: prevImage, video: prevVideo } = blog.urls;
+                if (imageFiles && imageFiles[0] && prevImage) {
+                    await cloudinaryDeleter(prevImage);
+                    await unlinkFile(prevImage, "image");
+                    imageUrl = await cloudinaryUploader(imageFiles[0])
+                }
+
+                if (videoFiles && videoFiles[0] && prevVideo) {
+                    await cloudinaryDeleter(prevVideo);
+                    await unlinkFile(prevVideo, "video");
+                    videoUrl = await cloudinaryUploader(videoFiles[0])
+
+                }
+
+                const updateBlog = {
+                    text: text ? text : blog.text,
+                    urls: {
+                        image: imageUrl ? imageUrl : prevImage,
+                        video: videoUrl ? videoUrl : prevVideo
+                    }
+                }
+                await blogModel.updateOne({ _id: id }, updateBlog, { runValidators: true });
+                successHandler(res, 200, `updated successfully`)
+            } catch (error) {
+                next(error);
+            }
+
+
+            // // console.log(data)
         },
 
         async deleteBlog(req, res, next) {

@@ -9,7 +9,7 @@ const validationMiddleware = require("../middlewares/validationMiddleware");
 
 router.get("/getBlogs", blogController().getBlogs);
 router.get("/getBlog/:id", blogController().getBlog);
-router.put("/editBlog/:id", blogController().editBlog);
+router.put("/editBlog/:id", multerUpload, blogController().editBlog);
 router.delete("/deleteBlog/:id", blogController().deleteBlog)
 router.post("/addBlog", multerUpload, cloudinaryMiddleware, blogController().addBlog);
 
