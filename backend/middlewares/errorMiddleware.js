@@ -2,15 +2,19 @@ const ErrorHandler = require("../utils/ErrorHandler");
 
 const errorMiddleware = (error, req, res, next) => {
     if (error) {
-
+        let message;
+        if (error.code == "ENOENT") {
+            message = `The File does not exist`;
+            error = new ErrorHandler(message, 500);
+        }
 
         if (error.name == "CastError") {
             message = `invalid id ${error.path}`;
-            new ErrorHandler(message, 400);
+            error = new ErrorHandler(message, 400);
         }
 
         if (error.code === 11000) {
-            const message = `Duplicate ${Object.keys(error.keyValue)} Entered `
+            message = `Duplicate ${Object.keys(error.keyValue)} Entered `
             error = new ErrorHandler(message, 400)
         }
 
@@ -24,7 +28,7 @@ const errorMiddleware = (error, req, res, next) => {
         //     error = new ErrorHandler(message, 400)
         // }
 
-        console.log(error)
+        console.log(error.message)
         const statusCode = error.statusCode ? error.statusCode : 500;
         res.status(statusCode)
             .json({
