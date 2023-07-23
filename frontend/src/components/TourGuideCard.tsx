@@ -11,7 +11,7 @@ const TourGuideCard = (props: {
   follow: string;
 }) => {
   return (
-    <div className="w-[450px] relative rounded-xl shadow-xl mt-10 mb-6">
+    <div className="relative rounded-xl shadow-xl">
       <div className="h-72 relative">
         <Image
           width={100}
@@ -20,34 +20,34 @@ const TourGuideCard = (props: {
           alt="person"
           className="w-full h-full object-center object-cover rounded-t-xl"
         />
-        <div className="opacity-0 hover:opacity-100 transition-all absolute inset-0 bg-gray-900 bg-opacity-30 rounded-t-xl flex flex-col justify-center items-center">
-          <div className="flex gap-2">
+        <div className="opacity-0 hover:opacity-100 transition-all absolute inset-0 bg-gray-900 bg-opacity-60 rounded-t-xl flex flex-col justify-center items-center">
+          <div className="flex items-center justify-center gap-2">
             <a href={props.twitter} className="p-2 bg-white rounded-full">
               <Image
-                width={30}
-                height={30}
+                width={24}
+                height={24}
                 src="/../public/twitter.png"
                 alt="twitter"
               />
             </a>
             <a href={props.linkedin} className="p-2 bg-white rounded-full">
               <Image
-                width={30}
-                height={30}
+                width={24}
+                height={24}
                 src="/../public/linkedin.png"
                 alt="linkedin"
               />
             </a>
             <a href={props.insta} className="p-2 bg-white rounded-full">
               <Image
-                width={30}
-                height={30}
+                width={24}
+                height={24}
                 src="/../public/instagram.png"
                 alt="instagram"
               />
             </a>
           </div>
-          <a href={props.follow} className="mt-3 px-5 py-2 text-white text-xl bg-[#c42c66] rounded">Follow me</a>
+          <a href={props.follow} className="mt-3 px-4 py-2 text-white text-lg bg-[#c42c66] rounded">Follow me</a>
         </div>
       </div>
       <div className="p-5">
