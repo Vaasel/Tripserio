@@ -31,7 +31,7 @@ const FeedbackCard = (props: {
       );
   }
   return (
-    <div className="p-4 shadow-md rounded flex flex-col" >
+    <div className="p-5 shadow-md rounded flex flex-col" >
       <div className="flex items-center justify-between">
         <Image
           src="/../public/quote_icon.png"
@@ -46,7 +46,7 @@ const FeedbackCard = (props: {
         </div>
       </div>
       <p className="text-[#b8b2b2]">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex Duis aute irure dolor in reprehenderit in voluptate velit esse cilium dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        {props.text}
       </p>
       <div className="flex items-center gap-2 mt-4">
         <Image
