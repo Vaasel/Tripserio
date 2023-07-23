@@ -11,12 +11,14 @@ cloudinary.config({
 
 async function cloudinaryUploader(file) {
     const fileType = file.mimetype.split("/")[0];
+
     const filePath = file.path;
 
     const data = new Promise((resolve, reject) => {
         cloudinary.uploader.upload_large(filePath, {
             resource_type: `${fileType}`,
-            public_id: file.filename.split(".")[0]
+            public_id: file.filename.split(".")[0],
+            format: file.filename.split(".")[1]
         }, (error, result) => {
             if (error) {
                 reject(error);

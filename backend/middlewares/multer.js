@@ -19,7 +19,7 @@ const upload = multer({
         },
 
         filename(req, file, cb) {
-            let mediaName = file.fieldname + "-" + Date.now() + "." + mime.getExtension(file.mimetype);
+            let mediaName = file.fieldname + "-" + Date.now() + "." + file.originalname.split(".")[1];
             cb(null, mediaName);
 
         },

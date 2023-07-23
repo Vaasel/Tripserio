@@ -83,7 +83,7 @@ function userController() {
 
                 let resetUrl = `${req.protocol}://${req.get("host")}/user/resetPassword/${resetToken}`
 
-                let message = `click here to reset your password \n  ${resetUrl} \n if you have not requested this then ignore`
+                let message = `click here to reset your password \n <a href='${resetUrl}'>${resetUrl}</a>  \n if you have not requested this then ignore`
 
                 try {
                     await sendEmail({
