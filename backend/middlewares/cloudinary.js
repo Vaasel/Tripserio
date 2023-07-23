@@ -2,7 +2,7 @@ const cloudinary = require("cloudinary").v2;
 const ErrorHandler = require("../utils/ErrorHandler");
 const path = require("path");
 
-
+console.log(process.env.CLOUDINARY_API_KEY)
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
