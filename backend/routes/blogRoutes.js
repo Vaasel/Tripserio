@@ -11,7 +11,6 @@ router.get("/getBlogs", blogController().getBlogs);
 router.get("/getBlog/:id", blogController().getBlog);
 router.put("/editBlog/:id", multerUpload, blogController().editBlog);
 router.delete("/deleteBlog/:id", blogController().deleteBlog)
-router.delete("/deleteAllBlogs", blogController().deleteAllBlogs)
 
 
 
