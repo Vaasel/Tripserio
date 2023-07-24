@@ -25,8 +25,13 @@ const BestSeller = (props: {
           </p>
           <div className="flex justify-between items-center absolute bottom-3 w-full px-4 pr-5">
             <div className="text-white">
-                <p className="text-sm">{props.days} Days | {props.nights} Night</p>
-                <p className="text-xl font-semibold mt-2 relative">${props.price} <span className="w-[60%] border border-2 absolute bottom-0 left-0 border-[#c42c66]"></span></p>
+              <p className="text-sm">
+                {props.days} Days | {props.nights} Night
+              </p>
+              <p className="text-xl font-semibold mt-2 relative">
+                ${props.price}{" "}
+                <span className="w-[60%] border-2 absolute bottom-0 left-0 border-[#c42c66]"></span>
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <button className="w-8 p-2 bg-white rounded-full">
