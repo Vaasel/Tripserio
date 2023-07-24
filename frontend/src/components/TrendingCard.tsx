@@ -13,7 +13,7 @@ const TrendingCard = (props: {
 }) => {
   const stars = [1, 2, 3, 4, 5];
   return (
-    <div className="p-5 shadow-xl rounded-lg border-2">
+    <div className="p-5 shadow-xl rounded-lg border-2 relative [&:hover>*]:opacity-100">
       <Image
         width={1024}
         height={1024}
@@ -75,22 +75,36 @@ const TrendingCard = (props: {
           {props.durationDays} days
         </div>
         <div className="flex flex-wrap gap-2 mt-2">
-            {
-                props.features.map((feature)=> 
-                    <span key={feature} className="flex text-sm items-center gap-1 text-[#6f6d6d] font-semibold">
-                        <Image
-                            width={512}
-                            height={512}
-                            alt="tick, check"
-                            src={'/../public/check.png'}
-                            className="w-5"
-                        />
-                        {feature}
-                    </span>
-                )
-            }
+          {props.features.map((feature) => (
+            <span
+              key={feature}
+              className="flex text-sm items-center gap-1 text-[#6f6d6d] font-semibold"
+            >
+              <Image
+                width={512}
+                height={512}
+                alt="tick, check"
+                src={"/../public/check.png"}
+                className="w-5"
+              />
+              {feature}
+            </span>
+          ))}
         </div>
       </div>
+      <a
+        href="/"
+        className="bg-[#c42c66] w-full py-4 absolute left-0 -bottom-[65px] flex justify-center items-center font-semibold text-xl text-white gap-2 rounded-b-xl hover:bg-[#c04172] transition-all opacity-0 hover:opacity-100"
+      >
+        Book Now
+        <Image
+          width={512}
+          height={512}
+          src={"/../public/arrow_right.png"}
+          alt="arrow right"
+          className="w-10"
+        />
+      </a>
     </div>
   );
 };
