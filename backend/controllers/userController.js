@@ -138,7 +138,7 @@ function userController() {
         async getUserDetails(req, res, next) {
             try {
                 let user = await Users.findById(req.user._id);
-                res.status(200).json({ success: true, user })
+                res.status(200).json({ success: true, message:user })
             } catch (error) {
                 next(error)
             }
@@ -178,7 +178,7 @@ function userController() {
         async getAllUsers(req, res, next) {
             try {
                 let user = await Users.find({});
-                return res.status(200).json({ success: true, user })
+                return res.status(200).json({ success: true, message:user })
             } catch (error) {
                 next(error)
             }
@@ -194,7 +194,7 @@ function userController() {
                     return;
                 }
 
-                return res.status(200).json({ success: true, user })
+                return res.status(200).json({ success: true, message:user })
 
             } catch (error) {
                 next(error)
