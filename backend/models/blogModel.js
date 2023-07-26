@@ -3,20 +3,18 @@ const validator = require("validator");
 
 
 const blogSchema = new mongoose.Schema({
-    text: {
+    data: {
         type: String,
         required: [true, "Text is required"]
     },
 
-    urls: {
-        image: {
-            type: String,
-            required: [true, "Image  is required"]
-        },
-        video: {
-            type: String
-        }
-    }
+
+    featured_image: {
+        type: String,
+        required: [true, "Image  is required"]
+    },
+
+
 
 })
 

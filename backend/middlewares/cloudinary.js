@@ -2,21 +2,28 @@ const cloudinary = require("cloudinary").v2;
 const ErrorHandler = require("../utils/ErrorHandler");
 const path = require("path");
 
-
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+function fileNameFromCloudinary(url) {
+    const fileUrl = url.split("/");
+    const fileName = fileUrl[fileUrl.length - 1];
+    return fileName;
+}
+
 async function cloudinaryUploader(file) {
     const fileType = file.mimetype.split("/")[0];
+
     const filePath = file.path;
 
     const data = new Promise((resolve, reject) => {
         cloudinary.uploader.upload_large(filePath, {
             resource_type: `${fileType}`,
-            public_id: file.filename.split(".")[0]
+            public_id: file.filename.split(".")[0],
+            format: file.filename.split(".")[1]
         }, (error, result) => {
             if (error) {
                 reject(error);
@@ -55,7 +62,7 @@ function cloudinaryDeleter(url) {
 
     const fileUrl = url.split("/");
     const public_id = fileUrl[fileUrl.length - 1].split(".")[0];
-    const fileType = public_id.split("-")[0];
+    const fileType = fileUrl[4];
 
     return new Promise((resolve, reject) => {
         cloudinary.uploader.destroy(public_id, {
@@ -86,22 +93,16 @@ function cloudinaryDeleter(url) {
 
 
 const cloudinaryMiddleware = async (req, res, next) => {
-    const { image, video } = req.files;
+    const image = req.file;
 
-
-    if (image && image[0]) {
-        let url = await cloudinaryUploader(image[0])
+    if (image) {
+        let url = await cloudinaryUploader(image)
 
         req.uploadedImage = url;
-
-    }
-    if (video && video[0]) {
-        let url = await cloudinaryUploader(video[0])
-        req.uploadedVideo = url;
 
     }
 
     next();
 }
 
-module.exports = { cloudinaryMiddleware, cloudinaryDeleter, cloudinaryUploader };
+module.exports = { cloudinaryMiddleware, fileNameFromCloudinary, cloudinaryDeleter, cloudinaryUploader };

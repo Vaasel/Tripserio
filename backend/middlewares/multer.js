@@ -12,14 +12,11 @@ const upload = multer({
             const fileType = file.mimetype.split("/")[0]
             if (fileType == "image") {
                 cb(null, `${assestsDir}/image`)
-            } else {
-                cb(null, `${assestsDir}/video`)
             }
 
         },
-
         filename(req, file, cb) {
-            let mediaName = file.fieldname + "-" + Date.now() + "." + mime.getExtension(file.mimetype);
+            let mediaName = file.fieldname + "-" + Date.now() + "." + file.originalname.split(".")[1];
             cb(null, mediaName);
 
         },
@@ -45,28 +42,21 @@ const upload = multer({
             "ico",
         ];
 
-        const validVideoFormats = [
-            "mp4"
-        ];
 
 
 
-        if (fileType[0] != "image" && fileType[0] != "video") {
-            cb(new ErrorHandler("You can only upload Images and Videos", 415), false)
-        } else if (fileType[0] == "video" && !validVideoFormats.includes(fileType[1].toLowerCase())) {
-            cb(new ErrorHandler("Not a valid format only mp4 videos are allowed", 415), false)
+
+        if (fileType[0] != "image") {
+            cb(new ErrorHandler("You can only upload Images ", 415), false)
         } else if (fileType[0] == "image" && !validImageFormats.includes(fileType[1].toLowerCase())) {
-            cb(new ErrorHandler("Not a valid image format preferred formate are png,jpg,jpeg", 415), false)
+            cb(new ErrorHandler("Not a valid image format preferred format are png,jpg,jpeg", 415), false)
         } else {
             cb(null, true)
 
         }
 
     }
-}).fields([
-    { name: "image", maxCount: 1 },
-    { name: "video", maxCount: 1 }
-])
+}).single("featured_image")
 
 
 module.exports = upload;

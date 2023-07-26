@@ -2,21 +2,30 @@ const blogModel = require("../models/blogModel");
 const successHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/ErrorHandler");
 const unlinkFile = require("../utils/unlinkFile");
-const { cloudinaryDeleter, cloudinaryUploader } = require("../middlewares/cloudinary");
+const { cloudinaryDeleter, fileNameFromCloudinary, cloudinaryUploader } = require("../middlewares/cloudinary");
+const path = require("path");
+const base64 = require('node-base64-image');
+var base64Img = require('base64-img');
+
 
 function blogController() {
 
 
     return {
         async getBlog(req, res, next) {
-            const id = req.params.id;
-            let data = await blogModel.findById(id)
+            try {
+                const id = req.params.id;
+                let data = await blogModel.findById(id)
 
-            if (!data) {
-                throw new ErrorHandler("the blog does not exist", 401)
+                if (!data) {
+                    throw new ErrorHandler("the blog does not exist", 401)
+                }
+
+                successHandler(res, 200, data);
+            } catch (error) {
+                next(error)
             }
 
-            successHandler(res, 200, data);
 
 
         },
@@ -36,26 +45,21 @@ function blogController() {
             try {
 
 
+                let data = req.body.data;
+
                 const blog = new blogModel({
-                    text,
-                    urls: {
-                        image: req.uploadedImage ? req.uploadedImage : undefined,
-                        video: req.uploadedVideo ? req.uploadedVideo : undefined
-                    }
+                    data,
+                    featured_image: req.uploadedImage ? req.uploadedImage : undefined,
                 })
+
+
 
                 let validationError = blog.validateSync();
                 if (validationError) {
-                    if (image) {
-                        await cloudinaryDeleter(image);
-                        await unlinkFile(image, "image");
-
-                    }
-
-                    if (video) {
-                        await cloudinaryDeleter(video);
-                        await unlinkFile(video, "video");
-
+                    if (req.uploadedImage) {
+                        await cloudinaryDeleter(req.uploadedImage);
+                        let filename = fileNameFromCloudinary(req.uploadedImage);
+                        await unlinkFile(filename, "image");
                     }
 
                     throw new ErrorHandler(validationError.message, 401)
@@ -75,46 +79,37 @@ function blogController() {
         async editBlog(req, res, next) {
             try {
                 const id = req.params.id;
-                const text = req.body.text;
-                const { image: imageFiles, video: videoFiles } = req.files;
+                const data = req.body.data;
+                const image = req.file;
 
 
                 let imageUrl;
-                let videoUrl;
 
                 let blog = await blogModel.findById(id);
                 if (!blog) {
+
                     if (image) {
-                        await unlinkFile(image, "image");
+
+                        await unlinkFile(image.filename, "image");
 
                     }
 
-                    if (video) {
-                        await unlinkFile(video, "video");
-
-                    }
-                    throw ErrorHandler(`Blog does not exist`, 401)
+                    throw new ErrorHandler(`Blog does not exist`, 401)
                 }
-                const { image: prevImage, video: prevVideo } = blog.urls;
-                if (imageFiles && imageFiles[0] && prevImage) {
+                const { featured_image: prevImage } = blog;
+                if (image && prevImage) {
                     await cloudinaryDeleter(prevImage);
-                    await unlinkFile(prevImage, "image");
-                    imageUrl = await cloudinaryUploader(imageFiles[0])
+                    let filename = fileNameFromCloudinary(prevImage);
+                    await unlinkFile(filename, "image");
+                    imageUrl = await cloudinaryUploader(image)
                 }
 
-                if (videoFiles && videoFiles[0] && prevVideo) {
-                    await cloudinaryDeleter(prevVideo);
-                    await unlinkFile(prevVideo, "video");
-                    videoUrl = await cloudinaryUploader(videoFiles[0])
 
-                }
 
                 const updateBlog = {
-                    text: text ? text : blog.text,
-                    urls: {
-                        image: imageUrl ? imageUrl : prevImage,
-                        video: videoUrl ? videoUrl : prevVideo
-                    }
+                    data: data ? data : blog.data,
+                    featured_image: imageUrl ? imageUrl : prevImage
+
                 }
                 await blogModel.updateOne({ _id: id }, updateBlog, { runValidators: true });
                 successHandler(res, 200, `updated successfully`)
@@ -123,7 +118,6 @@ function blogController() {
             }
 
 
-            // // console.log(data)
         },
 
         async deleteBlog(req, res, next) {
@@ -133,38 +127,31 @@ function blogController() {
                 if (!data) {
                     throw new ErrorHandler("the blog does not exist", 401)
                 }
-                const { image, video } = data.urls;
-                let success = {
-                    sImage: false,
-                    sVideo: false
+                const { featured_image } = data;
+
+                let success = false;
+
+                if (featured_image) {
+                    await cloudinaryDeleter(featured_image);
+                    let filename = fileNameFromCloudinary(featured_image);
+                    await unlinkFile(filename, "image");
+                    success = true;
                 }
 
-                if (image) {
-                    await cloudinaryDeleter(image);
-                    await unlinkFile(image, "image");
-                    success.sImage = true;
-                }
 
-                if (video) {
-                    await cloudinaryDeleter(video);
-                    await unlinkFile(video, "video");
-                    success.sVideo = true;
-                }
-
-                if (image && !success.sImage) {
-                    throw new ErrorHandler(`Something went wrong the image was not deleted successfully`, 500);
-                }
-                if (video && !success.sVideo) {
+                if (featured_image && !success) {
                     throw new ErrorHandler(`Something went wrong the image was not deleted successfully`, 500);
                 }
 
-                successHandler(res, `the files were deleted successfully`, 200);
+
+                successHandler(res, 200, `the files were deleted successfully`);
 
 
             } catch (error) {
                 next(error)
             }
-        }
+        },
+
 
     }
 }

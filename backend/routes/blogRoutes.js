@@ -6,12 +6,12 @@ const { cloudinaryMiddleware } = require("../middlewares/cloudinary");
 const validationMiddleware = require("../middlewares/validationMiddleware");
 
 
-
-router.get("/getBlogs", blogController().getBlogs);
+router.post("/addBlog", multerUpload, cloudinaryMiddleware, blogController().addBlog);
 router.get("/getBlog/:id", blogController().getBlog);
 router.put("/editBlog/:id", multerUpload, blogController().editBlog);
-router.delete("/deleteBlog/:id", blogController().deleteBlog)
-router.post("/addBlog", multerUpload, cloudinaryMiddleware, blogController().addBlog);
+router.delete("/deleteBlog/:id", blogController().deleteBlog);
+router.get("/", blogController().getBlogs);
+
 
 
 module.exports = router;

@@ -4,13 +4,11 @@ const ErrorHandler = require("../utils/ErrorHandler");
 
 
 
-function unlinkFile(url, type) {
+function unlinkFile(fileName, type) {
 
     const assestsDir = path.join(path.join(__dirname, ".."), "assests");
-    // const { image, video } = urls;
-    const fileUrl = url.split("/");;
-    const fileName = fileUrl[fileUrl.length - 1];
     const filePath = path.join(assestsDir, `${type}/${fileName}`);
+
     return new Promise((resolve, reject) => {
         fs.unlink(filePath, (error) => {
             if (error) {
