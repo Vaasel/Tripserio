@@ -1,3 +1,11 @@
+import Navbar from "@/components/Navbar";
+
 export default function Home() {
-  return <div>Home Page</div>;
+  return (
+    <>
+      <header className=" w-full h-full  object-cover">
+        <Navbar />
+      </header>
+    </>
+  );
 }
