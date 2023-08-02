@@ -1,4 +1,5 @@
 import React from "react";
+import AvailabilityCheck from "./AvailabilityCheck";
 
 const Hero = () => {
   return (
@@ -10,6 +11,9 @@ const Hero = () => {
           Explore the beauty of nature
           <br /> Discover the new you
         </h2>
+        <section>
+          <AvailabilityCheck />
+        </section>
       </div>
     </div>
   );
