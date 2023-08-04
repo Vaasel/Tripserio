@@ -30,7 +30,11 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: "Customer"
+        default: "traveller"
+    },
+    is_online: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 
@@ -68,4 +72,4 @@ userSchema.methods.getResetPasswordToken = function () {
 
 
 
-module.exports = mongoose.model('user', userSchema)
+module.exports = mongoose.model('users', userSchema)
