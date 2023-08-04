@@ -4,11 +4,11 @@ const uri = "mongodb+srv://Harry:" + password + "@vaasel.0ximno3.mongodb.net/Tri
 
 async function dbConnect() {
     try {
-        await mongoose.connect(uri, {
+        await mongoose.connect(process.env.MONGO_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
-        console.log("connection established")
+        console.log("connection established with database")
 
     } catch (error) {
         console.log("db error", error)
