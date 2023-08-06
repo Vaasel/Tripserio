@@ -13,21 +13,20 @@ const blogRouter = require("./routes/blogRoutes");
 const tripRouter = require("./routes/TripRoutes.js");
 const chatRouter = require("./routes/chatRoutes.js");
 
-
-
 const errorMiddleware = require("./middlewares/errorMiddleware");
 
-//pusherconfig
-// require("./utils/pusher")();
+
 
 // cloudinary settings
 require("./middlewares/cloudinary");
 
 // database connection
-require("./db/conn.js")();
+const password = encodeURIComponent("VeWfo5KQ9ZSPtpBy");
+const uri = "mongodb+srv://Harry:" + password + "@vaasel.0ximno3.mongodb.net/Tripserio?retryWrites=true&w=majority";
 
-//EventEmitter Events
-require("./utils/eventEmitter")(eventEmitter);
+require("./db/conn.js")(uri);
+
+
 
 
 
@@ -43,7 +42,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL })
+    store: MongoStore.create({ mongoUrl: uri })
 }))
 
 //Routes
@@ -52,6 +51,7 @@ app.use("/user", userRouter)
 app.use("/trips", tripRouter)
 app.use("/blog", blogRouter)
 app.use("/chat", chatRouter)
+
 
 app.use("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public/index.html"))
@@ -64,45 +64,14 @@ const server = app.listen(port, () => {
     console.log("app is running....")
 })
 
-//socket-io configuration file
-// let socketio = require("./utils/socket-io");
-const userModel = require("./models/userModel");
+//socket-io configuration
 const io = require("socket.io")(server);
+require("./utils/socket-io")(io, eventEmitter)
 
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-
-    socket.on("disconnect", async () => {
-        // console.log(socket.userId)
-        console.log("user disconnected")
-        await userModel.updateOne({ _id: socket.userId }, { $set: { is_online: false } })
-    })
-
-
-
-    // This event is emitted when a user logins to the website.
-    eventEmitter.on("join", (channel) => {
-        socket.join(channel)
-        socket.userId = channel;
-    })
-
-    eventEmitter.on("sendMessage", (messages) => {
-        io.to(messages[0].receiver._id).emit("sendMessage", messages)
-    })
-
-});
 
 //global variables
 app.set("eventEmitter", eventEmitter)
-
-
-
-
-
-
-
-
 
 
 process.on("uncaughtException", (error) => {
