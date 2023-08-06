@@ -1,0 +1,15 @@
+Guide for Front-End to use Scoket.io
+
+DO NOT CHANGE THE NAME OF THE SOCKET EVENTS !! 
+ 
+  
+socket.emit("join", userId)
+
+//whenever a user logsin emit the above socket event “join” and pass the logged in user id. This userId can be received as a response from the login endpoint.
+
+
+socket.on("message", (messages) => {
+    console.log(messages, "i am from client socket")
+})
+
+//Register the above “message” event on the socket, whenever a logged in user sends a message, The receiver if logged in, will receive the incoming message inside messages object, this messages object will contain sender,receiver information as well as the message.
