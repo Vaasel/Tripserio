@@ -10,15 +10,7 @@ function chatController() {
 
 
     return {
-        async getAllTravellers(req, res) {
-            try {
-                let travellers = await userModel.find({ role: "traveller" })
-                successHandler(res, 200, travellers)
 
-            } catch (error) {
-                next(error)
-            }
-        },
 
         async setReceiver(req, res, next) {
             const { receiverId } = req.body;
@@ -38,9 +30,9 @@ function chatController() {
                 if (!user) {
                     throw new ErrorHandler("this user does not exit", 404)
                 }
-                // if (receiverId == req.session.receiverId) {
-                //     throw new ErrorHandler("the user has already been set", 401)
-                // }
+                if (receiverId == req.session.receiverId) {
+                    throw new ErrorHandler("the user has already been set", 401)
+                }
                 req.session.receiverId = receiverId;
 
                 let findFilter = {
@@ -66,7 +58,7 @@ function chatController() {
                         },
                     });
 
-                successHandler(res, 200, { messages: chat.messages ? chat.messages : [] })
+                successHandler(res, 200, { messages: chat?.messages ? chat.messages : [] })
             } catch (error) {
                 next(error)
             }
@@ -132,42 +124,23 @@ function chatController() {
                         messages: [msg]
                     })
                     await chat.save();
+                    await chat.populate({
+                        path: "messages",
+                        populate: [
+                            { path: "sender", select: "_id name email role is_online" },
+                            { path: "receiver", select: "_id name email role is_online" }
+                        ]
+                    });
                 }
+
                 const eventEmitter = req.app.get("eventEmitter");
-                eventEmitter.emit("sendMessage", chat.messages)
-                return successHandler(res, 200, chat.messages)
+                eventEmitter.emit("sendMessage", chat.messages[chat.messages.length - 1])
+                return successHandler(res, 200, chat.messages[chat.messages.length - 1])
             } catch (error) {
                 next(error)
             }
 
         },
-
-        async chatLoader(req, res) {
-            console.log(req.session.senderId, "This is random data", req.session.receiverId)
-            try {
-                let chat = await chatModel
-                    .findOne({
-                        $or: [
-                            {
-                                person1Id: req.session.senderId,
-                                person2Id: req.session.receiverId
-                            },
-                            {
-                                person1Id: req.session.receiverId,
-                                person2Id: req.session.senderId
-                            }
-                        ]
-                    })
-                // .populate("person1Id person2Id messages.sender messages.receiver")
-
-            } catch (error) {
-                console.log(error)
-            }
-
-
-        }
-
-
 
     }
 }
