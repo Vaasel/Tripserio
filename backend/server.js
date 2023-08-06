@@ -53,9 +53,9 @@ app.use("/blog", blogRouter)
 app.use("/chat", chatRouter)
 
 
-app.use("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/index.html"))
-})
+// app.use("/", (req, res) => {
+//     res.sendFile(path.join(__dirname, "public/index.html"))
+// })
 
 
 

@@ -50,7 +50,7 @@ function userController() {
 
                 let user = await Users.findOne({ email });
                 if (!user) {
-                    next(new ErrorHandler("User does not exist", 401));
+                    next(new ErrorHandler("User does not exist", 404));
                     return;
                 }
 
@@ -60,9 +60,9 @@ function userController() {
                     return;
                 }
 
-                eventEmitter.emit("join", user.id)
-                req.session.senderId = user.id;
-                await Users.updateOne({ _id: user.id }, { $set: { is_online: true } })
+                req.session.senderId = user._id;
+                let updated = await Users.updateOne({ _id: user._id }, { $set: { is_online: true } })
+
                 jwtToken(user, res, 200)
 
             } catch (error) {
@@ -72,7 +72,7 @@ function userController() {
 
         async logoutUser(req, res, next) {
             try {
-                let user = await Users.findOneAndUpdate({ _id: req.session.sender_id }, { $set: { is_online: false } })
+                let user = await Users.findOneAndUpdate({ _id: req.session.senderId }, { $set: { is_online: false } })
                 if (!user) {
                     throw new ErrorHandler("something went wrong you were not logged in properly..", 500)
                 }
@@ -102,7 +102,7 @@ function userController() {
                 }
 
                 let resetToken = user.getResetPasswordToken();
-                console.log(user);
+
                 await user.save({ validateBeforeSave: false });
 
                 let resetUrl = `${req.protocol}://${req.get("host")}/user/resetPassword/${resetToken}`
