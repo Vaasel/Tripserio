@@ -1,5 +1,7 @@
 import React from "react";
 import AvailabilityCheck from "./AvailabilityCheck";
+import { StyleRegistry } from "styled-jsx";
+import StepsToFollow from "./StepsToFollow";
 
 const Hero = () => {
   return (
@@ -13,6 +15,7 @@ const Hero = () => {
         </h2>
         <section>
           <AvailabilityCheck />
+          <StepsToFollow />
         </section>
       </div>
     </div>
