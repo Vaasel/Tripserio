@@ -22,7 +22,7 @@ const TrendingCard = (props: {
         className="w-full h-64 rounded-xl"
       />
       <div className="flex items-center justify-between">
-        <div className="mt-6 font-semibold">
+        <div className="mt-4 font-semibold">
           <h2 className="text-xl">{props.name}</h2>
           {props.necessities.map((necessity, index) => (
             <span className="text-[#6e6c6c]" key={necessity}>
@@ -38,14 +38,14 @@ const TrendingCard = (props: {
           className="w-8 h-8 mt-2 mr-1"
         />
       </div>
-      <div className="mt-6 flex flex-wrap items-center justify-between">
+      <div className="mt-4 flex flex-wrap items-center justify-between">
         <div className="font-semibold text-[#6f6d6d] text-sm">
           From <br />
           <span className="text-3xl text-black">${props.price}</span>
           <br />
           *Price varies
         </div>
-        <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0">
+        <div className="flex flex-col items-start sm:items-end mt-3 sm:mt-0">
           <div className="flex gap-1">
             {stars.map((star) => (
               <Image
@@ -63,7 +63,7 @@ const TrendingCard = (props: {
           </p>
         </div>
       </div>
-      <div className="mt-8">
+      <div className="mt-4">
         <div className="flex font-semibold gap-1">
           <Image
             width={512}
