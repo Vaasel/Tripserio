@@ -14,7 +14,7 @@ const Navbar = () => {
   useEffect(() => {
     const changeColor = () => {
       if (window.scrollY >= 90) {
-        setColor("#ffffff");
+        setColor("#f2f2f2f2");
         setTextColor("#000000");
       } else {
         setColor("transparent");
@@ -270,7 +270,10 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <button className="border border-white px-3 py-2 rounded-sm">
+        <button
+          style={{ backgroundColor: `${color}` }}
+          className="border border-white px-3 py-2 rounded-sm"
+        >
           Login or Register
         </button>
       </div>

@@ -1,14 +1,14 @@
 import React from "react";
 
-const DestinationGallery = () => {
+const WatchVideo = () => {
   return (
     <div className="w-max h-max  ">
       <h1 className="text-3xl font-semibold font text-black mt-[70vh]">
-        Top Destination
+        Watch our Video
       </h1>
       <div className="flex flex-row gap-2 h-max"></div>
     </div>
   );
 };
 
-export default DestinationGallery;
+export default WatchVideo;

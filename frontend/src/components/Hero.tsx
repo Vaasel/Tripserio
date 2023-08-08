@@ -4,6 +4,12 @@ import { StyleRegistry } from "styled-jsx";
 import StepsToFollow from "./StepsToFollow";
 import Trending from "./Trending";
 import DestinationGallery from "./DestinationGallery";
+import BestSellerSection from "./BestSellerSection";
+import WatchVideo from "./WatchVideo";
+import TourGuide from "./TourGuide";
+import ClientFeedback from "./ClientFeedback";
+import Subscribe from "./Subscribe";
+import Footer from "./Footer";
 
 const Hero = () => {
   return (
@@ -18,9 +24,17 @@ const Hero = () => {
         <section>
           <AvailabilityCheck />
           <div className="mb-[7rem]" />
-          <StepsToFollow />
+          <div className="relative flex align-middle content-center justify-center">
+            <StepsToFollow />
+          </div>
           <Trending />
           <DestinationGallery />
+          <BestSellerSection />
+          <WatchVideo />
+          <TourGuide />
+          <ClientFeedback />
+          <Subscribe />
+          <Footer />
         </section>
       </div>
     </div>

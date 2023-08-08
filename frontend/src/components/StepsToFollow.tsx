@@ -3,7 +3,7 @@ import React from "react";
 
 const StepsToFollow = () => {
   return (
-    <div className="flex bg-white w-[1070px] gap-14 left-[6.5rem] p-10 rounded-lg absolute shadow-xl">
+    <div className="flex bg-white w-[1070px] gap-14 absolute p-10 rounded-lg shadow-xl">
       <div className="flex-col justify-center items-center gap-2.5 inline-flex w-full">
         <img src={`/visit.svg`} />
         <div className="text-zinc-800 text-md font-bold">
