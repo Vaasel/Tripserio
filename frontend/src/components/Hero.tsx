@@ -27,6 +27,8 @@ const Hero = () => {
           <div className="relative flex align-middle content-center justify-center">
             <StepsToFollow />
           </div>
+        </section>
+        <section className="pl-12 overflow-x-hidden-hidden">
           <Trending />
           <DestinationGallery />
           <BestSellerSection />

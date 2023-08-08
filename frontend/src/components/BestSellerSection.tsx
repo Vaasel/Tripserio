@@ -39,7 +39,7 @@ const BestSellerSection = () => {
       <h1 className="text-3xl font-semibold font text-black mt-[70vh]">
         Best Seller
       </h1>
-      <div className="flex flex-row gap-5 h-max p-4">
+      <div className="flex flex-row gap-5 w-[80vw] h-max p-4">
         {bestSellersData.map((item, index) => (
           <BestSeller
             key={index}

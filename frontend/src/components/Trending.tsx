@@ -39,7 +39,7 @@ const Trending = () => {
       <h1 className="text-3xl font-semibold font text-black mt-[70vh]">
         Trending 2023
       </h1>
-      <div className="flex flex-row gap-2 h-max">
+      <div className="flex flex-row gap-2 w-[80vw] h-max">
         {dummyCards.map((card, index) => (
           <div className="w-[30vw] h-min p-3">
             <TrendingCard key={index} {...card} />
