@@ -25,7 +25,7 @@ const ClientFeedback = () => {
   ];
   return (
     <div className="w-full h-max">
-      <h1 className="text-3xl font-semibold font text-black mt-[70vh]">
+      <h1 className="text-3xl font-semibold font text-black">
         Clients Feedback
       </h1>
       <div className="flex flex-row gap-6 w-[80vw] pt-6 h-max">

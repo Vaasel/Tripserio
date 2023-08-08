@@ -27,9 +27,7 @@ const TourGuide = () => {
   ];
   return (
     <div className="w-max h-max  ">
-      <h1 className="text-3xl font-semibold font text-black mt-[70vh]">
-        Tour Guides
-      </h1>
+      <h1 className="text-3xl font-semibold font text-black ">Tour Guides</h1>
       <div className="flex flex-row gap-5 p-8 h-max">
         {tourGuidesData.map((guide, index) => (
           <div className="w-[27%] h-full">

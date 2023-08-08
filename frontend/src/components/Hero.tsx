@@ -35,9 +35,11 @@ const Hero = () => {
           <WatchVideo />
           <TourGuide />
           <ClientFeedback />
-          <Subscribe />
-          <Footer />
         </section>
+        <div className="flex align-middle content-center rounded-md justify-center">
+          <Subscribe />
+        </div>
+        <Footer />
       </div>
     </div>
   );

@@ -2,11 +2,11 @@ import React from "react";
 
 const AvailabilityCheck = () => {
   return (
-    <div className="h-max w-full flex-col justify-start items-end gap-2.5 inline-flex">
+    <div className="h-max  w-full flex-col justify-start items-end gap-2.5 inline-flex">
       <div className="self-stretch justify-start items-center gap-3.5 inline-flex">
         <div className="grow shrink basis-0 flex-col justify-center items-center gap-1 inline-flex">
           <div className="h-[93px]  flex-col justify-center items-start gap-[102px] flex">
-            <div className="w-[1070px]  bg-white px-6 py-3 rounded-md border border-zinc-300 justify-center items-center gap-[35px] inline-flex">
+            <div className="w-[1070px] pb-6  bg-white px-6 py-3 rounded-md border border-zinc-300 justify-center items-center gap-[35px] inline-flex">
               <div className="grow shrink basis-0 h-[53px] px-6 justify-between items-end flex">
                 <div className="flex-col justify-start items-start gap-1 inline-flex">
                   <div className="text-zinc-800 text-sm font-bold">
