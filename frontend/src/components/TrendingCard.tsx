@@ -15,13 +15,13 @@ const TrendingCard = (props: {
   return (
     <div className="p-5 shadow-xl rounded-lg border-2 relative [&:hover>*]:opacity-100">
       <Image
-        width={1024}
-        height={1024}
+        width={100}
+        height={100}
         src={props.img}
         alt="Hiking"
-        className="w-full h-64 rounded-xl"
+        className="w-full rounded-xl object-cover"
       />
-      <div className="flex items-center justify-between">
+      <div className="flex w-[23vw] h-min items-center justify-between">
         <div className="mt-4 font-semibold">
           <h2 className="text-xl">{props.name}</h2>
           {props.necessities.map((necessity, index) => (

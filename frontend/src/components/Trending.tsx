@@ -41,7 +41,7 @@ const Trending = () => {
       </h1>
       <div className="flex flex-row gap-2 w-[80vw] h-max">
         {dummyCards.map((card, index) => (
-          <div className="w-[30vw] h-min p-3">
+          <div className="w-[60vw] h-[30vh] p-3">
             <TrendingCard key={index} {...card} />
           </div>
         ))}

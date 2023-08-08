@@ -4,7 +4,7 @@ import DestinationItems from "./DestinationItems";
 const DestinationGallery = () => {
   return (
     <>
-      <h1 className="text-3xl font-semibold font text-black mt-[20vh]">
+      <h1 className="text-3xl font-semibold font text-black mt-[10vh]">
         Top Destination
       </h1>
       <div className="w-max h-max ml-[8%] py-7 ">
