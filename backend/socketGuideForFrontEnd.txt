@@ -9,6 +9,9 @@ socket.emit("join", userId)
 
 
 socket.on("message", (messages) => {
+ if(messages.receiverId == userId){
+    //create message div to display message in chatbox else do nothing. please keep in mind that here userId must be the id of the logged         in user this can be received as a response when a user successfully logsin
+  }
     console.log(messages, "i am from client socket")
 })
 
