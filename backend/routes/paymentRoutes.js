@@ -3,6 +3,6 @@ const router = express.Router();
 const paymentController = require("../controllers/paymentController")
 
 
-router.get("/stripe", paymentController().stripe);
+router.post("/stripe", paymentController().stripe);
 
 module.exports = router;

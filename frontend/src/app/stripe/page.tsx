@@ -19,8 +19,12 @@ const Page = () => {
         e.preventDefault();
         const { card, stripe } = stripeDetails;
         if (card) {
-            stripe?.createToken(card).then((result) => {
-                console.log(result)
+            stripe?.createToken(card).then(async (result) => {
+                // await axios.post("http://localhost:5000/payment/stripe", {
+                //     "stripeToken": result?.token?.id
+                // })
+                console.log(result?.token?.id)
+
             })
 
         }
