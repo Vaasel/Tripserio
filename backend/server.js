@@ -5,6 +5,7 @@ const app = express();
 const userRouter = require("./routes/userRoutes");
 const blogRouter = require("./routes/blogRoutes");
 const tripRouter = require("./routes/TripRoutes.js");
+const paymentRouter = require("./routes/paymentRoutes");
 const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 const path = require("path");
@@ -28,6 +29,7 @@ app.use(cookieParser())
 app.use("/user", userRouter)
 app.use("/trips", tripRouter)
 app.use("/blog", blogRouter)
+app.use("/payment",paymentRouter)
 app.get("/", (req, res) => {
     res.send("app is working")
 })
