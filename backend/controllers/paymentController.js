@@ -11,20 +11,29 @@ function paymentRoutes() {
         async stripe(req, res,next) {
             try {
 
-                const { stripeToken , totalPrice } = req.body;
+                const { stripeToken , totalPrice ,paymentDesc} = req.body;
                 if (!stripeToken) {
                     throw new ErrorHandler("token must be provided", 400);
                 }
                 
-                if (!totalPrice) {
-                    throw new ErrorHandler("enter valid price", 400);
+                if (!totalPrice || !paymentDesc) {
+                    throw new ErrorHandler("Please provide price and description", 400);
                 }
+
+
+                // customer = await stripe.customers.create(
+                //     {   name:'John Doe',
+                //         email:'john@example.com',
+                //         source: stripeToken
+                //     }
+                // )
                 
-                const res = await stripe.charges.create({
+                await stripe.charges.create({
                     amount: totalPrice * 100 ,
-                    description: `product price`,
+                    description: paymentDesc,
                     source: stripeToken,
-                    currency:"inr"
+                    currency: process.env.STRIPE_CURRENCY,
+                    // customer : customer.id
                 })
                
                successHandler(res,200,"payment successful")

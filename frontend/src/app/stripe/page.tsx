@@ -20,10 +20,19 @@ const Page = () => {
         const { card, stripe } = stripeDetails;
         if (card) {
             stripe?.createToken(card).then(async (result) => {
-                // await axios.post("http://localhost:5000/payment/stripe", {
-                //     "stripeToken": result?.token?.id
-                // })
-                console.log(result?.token?.id)
+
+
+                try {
+                    await axios.post("http://localhost:5000/payment/stripe", {
+                        "stripeToken": result?.token?.id,
+                        totalPrice: 400,
+                        paymentDesc: "payment boots"
+                    })
+                } catch (error) {
+                    console.log(error)
+                }
+
+
 
             })
 

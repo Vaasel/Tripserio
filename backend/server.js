@@ -1,6 +1,6 @@
 const express = require("express");
 require("dotenv").config();
-
+const cors = require("cors")
 const app = express();
 const userRouter = require("./routes/userRoutes");
 const blogRouter = require("./routes/blogRoutes");
@@ -17,6 +17,7 @@ require("./middlewares/cloudinary");
 require("./db/conn.js")();
 
 //middlewares
+app.use(cors({ origin: 'http://localhost:3000' }))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json())
 app.use(express.urlencoded({
