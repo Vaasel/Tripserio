@@ -51,13 +51,8 @@ function paymentRoutes() {
                 if (!amount || !mobileNumber || !cnic || !desc) {
                     throw new ErrorHandler("Please fill all fields",400)
                 }
-                let data = jazzCash.getDetails(amount, mobileNumber, cnic, desc);
+                let data = await jazzCash.getDetails(amount, mobileNumber, cnic, desc);
 
-
-
-                // res.send(data)
-                console.log(process.env.JAZZCASH_POST_URL);
-                console.log(data)
                 let response = await fetch(process.env.JAZZCASH_POST_URL, {
                     method: "POST",
                     headers: {
@@ -67,8 +62,6 @@ function paymentRoutes() {
                 })
 
                 let result = await response.json();
-                // let response = await axios.post("https://sandbox.jazzcash.com.pk/ApplicationAPI/API/Payment/DoTransaction",data)
-                // console.log(result)
                  successHandler(res,200,result)
             } catch (error) {
               next(error)

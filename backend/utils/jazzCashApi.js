@@ -14,14 +14,14 @@ class JazzCash{
     }
 
 
-    getDetails(amount,mobileNumber,cnic,desc) {
+    async getDetails(amount,mobileNumber,cnic,desc) {
         let pp_TxnDateTime = dayjs().format('YYYYMMDDHHmmss');
         let pp_TxnExpiryDateTime = dayjs(pp_TxnDateTime).add(1, 'hour').format('YYYYMMDDHHmmss');
         let pp_Amount = amount * 100;
         let pp_TxnRefNo = "T" + pp_TxnDateTime;
-        let token = crypto.randomBytes(20).toString("hex");
-        let secureHash = crypto.createHash("sha256").update(token).digest("hex")
-        let pp_SecureHash = secureHash;
+        // let token = crypto.randomBytes(20).toString("hex");
+        // let secureHash = crypto.createHash("sha256").update(token).digest("hex")
+        // let pp_SecureHash = secureHash;
         let pp_ReturnURL = "http://localhost/payment/jazzcash"
 
 
@@ -39,15 +39,47 @@ class JazzCash{
             "pp_Description": desc,
             "pp_TxnExpiryDateTime": pp_TxnExpiryDateTime,
             "pp_ReturnURL":process.env.JAZZCASH_RETURN_URL,
-            "pp_SecureHash": "4474757FEC7996E50E874DD9266DA3EE73E878FEB929943BC77136D449BA7D2A",
             "ppmpf_1": mobileNumber,
-            "ppmpf_2": "",
-            "ppmpf_3": "",
-            "ppmpf_4": "",
-            "ppmpf_5": ""
-       
         }
 
+        function sortObjectKeysAlphabetically(obj) {
+            const sortedKeys = Object.keys(obj).sort();
+            const sortedObject = {};
+
+            for (const key of sortedKeys) {
+                sortedObject[key] = obj[key];
+            }
+
+            return sortedObject;
+        }
+        let sortedObject = sortObjectKeysAlphabetically(data)
+        
+        function str() {
+            let str = `${process.env.JAZZCASH_INTEGRITY_SALT}&`
+            let flag = false;
+            return new Promise((resolve, reject) => {
+                for (let i in sortedObject) {
+                   str = str + `${data[i]}`
+                    
+                    if (i == "ppmpf_1") {
+                        flag = true;
+                    } else {
+                        str = str + `&`;
+                    }
+                }
+
+                if (flag) {
+                    resolve(str);
+                }
+            })
+        }
+
+   
+      
+        let dataString = await str();
+       
+        let pp_SecureHash = crypto.createHmac('sha256', process.env.JAZZCASH_INTEGRITY_SALT).update(dataString).digest("hex");
+        data["pp_SecureHash"] = pp_SecureHash
        return data
 
     }
