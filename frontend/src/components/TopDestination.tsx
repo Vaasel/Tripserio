@@ -7,7 +7,7 @@ const TopDestination = (props: {
   img: string;
 }) => {
   return (
-    <div className="relative rounded-xl">
+    <div className="relative rounded-xl mb-4">
       <Image
         src={props.img}
         alt="Top Destination"
@@ -17,14 +17,12 @@ const TopDestination = (props: {
       />
       <div className="absolute inset-0 bg-black bg-opacity-60 rounded-xl px-5">
         <div className="absolute bottom-5">
-          <h2 className="text-white font-semibold text-lg">
-            {props.name}
-          </h2>
-          <p className="text-[#c6c2c2] text-sm">
-            {props.description}
-          </p>
+          <h2 className="text-white font-semibold text-lg">{props.name}</h2>
+          <p className="text-[#c6c2c2] text-sm">{props.description}</p>
         </div>
-        <p className="absolute top-0 left-0 px-3 py-[2px] text-sm font-semibold bg-white bg-opacity-70 rounded-full text-[#c42c66] mx-5 my-5">{props.rating}</p>
+        <p className="absolute top-0 left-0 px-3 py-[2px] text-sm font-semibold bg-white bg-opacity-70 rounded-full text-[#c42c66] mx-5 my-5">
+          {props.rating}
+        </p>
       </div>
     </div>
   );

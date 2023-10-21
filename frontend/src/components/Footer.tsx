@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <section className="py-12">
+    <section className="py-12 w-[90vw]">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center xl:flex xl:items-center xl:justify-between xl:text-left">
           <div className="xl:flex xl:items-center xl:justify-start">

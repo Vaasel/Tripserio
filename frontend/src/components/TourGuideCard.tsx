@@ -47,15 +47,20 @@ const TourGuideCard = (props: {
               />
             </a>
           </div>
-          <a href={props.follow} className="mt-3 px-4 py-2 text-white text-lg bg-[#c42c66] rounded">Follow me</a>
+          <a
+            href={props.follow}
+            className="mt-3 px-4 py-2 text-white text-lg bg-[#c42c66] rounded"
+          >
+            Follow me
+          </a>
         </div>
       </div>
       <div className="p-5">
         <div className="flex font-bold justify-between items-center">
-          <h2 className="text-xl">{props.name}</h2>
+          <h2 className="text-xl text-black">{props.name}</h2>
           <p className="text-[#b22c5f] text-md">{props.position}</p>
         </div>
-        <p className="mt-4 text-[#a49e9e]">{props.text}</p>
+        <p className="mt-4 text-sm text-[#a49e9e]">{props.text}</p>
       </div>
     </div>
   );

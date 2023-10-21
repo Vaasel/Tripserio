@@ -1,10 +1,9 @@
 import Hero from "@/components/Hero";
-import Navbar from "@/components/Navbar";
 import RootLayout from "@/app/layout";
 export default function Home() {
   return (
     <>
-      <header className=" flex justify-center items-center h-screen ">
+      <header className=" flex flex-col justify-center items-center h-screen ">
         <Hero />
       </header>
     </>
