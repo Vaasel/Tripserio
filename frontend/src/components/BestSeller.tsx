@@ -53,8 +53,10 @@ const BestSeller = (props: {
           </div>
         </div>
       </div>
-      <h2 className="mt-3 font-bold text-xl text-center">{props.title}</h2>
-      <p className="text-center text-[#b2b0b0] text-md px-3">
+      <h2 className="mt-3 font-bold text-xl text-center text-black">
+        {props.title}
+      </h2>
+      <p className="text-center text-[#b2b0b0] text-sm px-3">
         {props.description}
       </p>
     </div>
