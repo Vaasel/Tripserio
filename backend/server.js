@@ -1,10 +1,11 @@
 const express = require("express");
 require("dotenv").config();
-
+const cors = require("cors")
 const app = express();
 const userRouter = require("./routes/userRoutes");
 const blogRouter = require("./routes/blogRoutes");
 const tripRouter = require("./routes/TripRoutes.js");
+const paymentRouter = require("./routes/paymentRoutes");
 const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 const path = require("path");
@@ -16,6 +17,7 @@ require("./middlewares/cloudinary");
 require("./db/conn.js")();
 
 //middlewares
+app.use(cors({ origin: 'http://localhost:3000' }))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json())
 app.use(express.urlencoded({
@@ -28,6 +30,7 @@ app.use(cookieParser())
 app.use("/user", userRouter)
 app.use("/trips", tripRouter)
 app.use("/blog", blogRouter)
+app.use("/payment",paymentRouter)
 app.get("/", (req, res) => {
     res.send("app is working")
 })
