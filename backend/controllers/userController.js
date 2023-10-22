@@ -23,7 +23,6 @@ function userController() {
                     throw new ErrorHandler("both passwords do not match", 400)
                 }
 
-
                 const user = new Users({
                     name,
                     email,
