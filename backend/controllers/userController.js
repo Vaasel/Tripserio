@@ -13,18 +13,25 @@ function userController() {
         async registerUser(req, res, next) {
             try {
 
-                let { email, name, password } = req.body;
+                let { email, name, password, cpassword, role } = req.body;
 
+                if (!email || !name || !password || !cpassword) {
+                    throw new ErrorHandler("all fields must be filled", 400)
+                }
+
+                if (password != cpassword) {
+                    throw new ErrorHandler("both passwords do not match", 400)
+                }
 
                 const user = new Users({
                     name,
                     email,
                     password,
-
+                    role: role ? role : undefined
                 });
 
                 await user.save();
-                jwtToken(user, res, 200)
+                jwtToken(user, res, 201)
 
             } catch (error) {
                 next(error)
@@ -33,6 +40,7 @@ function userController() {
 
         async loginUser(req, res, next) {
             try {
+                const eventEmitter = req.app.get("eventEmitter");
                 const { email, password } = req.body;
                 if (!email, !password) {
                     next(new ErrorHandler("Please fill all fields", 400))
@@ -41,7 +49,7 @@ function userController() {
 
                 let user = await Users.findOne({ email });
                 if (!user) {
-                    next(new ErrorHandler("User does not exist", 401));
+                    next(new ErrorHandler("User does not exist", 404));
                     return;
                 }
 
@@ -51,6 +59,8 @@ function userController() {
                     return;
                 }
 
+                req.session.senderId = user._id;
+                let updated = await Users.updateOne({ _id: user._id }, { $set: { is_online: true } })
 
                 jwtToken(user, res, 200)
 
@@ -61,12 +71,26 @@ function userController() {
         },
 
         async logoutUser(req, res, next) {
-            console.log(req.user)
-            res.cookie("jwt", null, {
-                httpOnly: true,
-                expires: new Date(Date.now())
-            });
-            res.status(200).json({ success: true, message: "Logout Successfull" })
+            try {
+                let user = await Users.findOneAndUpdate({ _id: req.session.senderId }, { $set: { is_online: false } })
+                if (!user) {
+                    throw new ErrorHandler("something went wrong you were not logged in properly..", 500)
+                }
+
+                res.cookie("jwt", null, {
+                    httpOnly: true,
+                    expires: new Date(Date.now())
+                });
+                req.session.destroy((error) => {
+                    if (error) {
+                        throw new ErrorHandler(`error while logging out please try again..${error}`, 500)
+                    }
+                })
+                res.status(200).json({ success: true, message: "Logout Successfull" })
+            } catch (error) {
+                next(error)
+            }
+
         },
 
         async forgotPassword(req, res, next) {

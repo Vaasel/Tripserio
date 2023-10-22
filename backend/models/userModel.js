@@ -30,7 +30,11 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: "Customer"
+        default: "traveller"
+    },
+    is_online: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 
