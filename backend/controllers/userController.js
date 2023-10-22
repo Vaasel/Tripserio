@@ -64,7 +64,6 @@ function userController() {
 
                 jwtToken(user, res, 200)
 
-
             } catch (error) {
                 next(error);
             }
@@ -102,7 +101,7 @@ function userController() {
                 }
 
                 let resetToken = user.getResetPasswordToken();
-                console.log(user);
+
                 await user.save({ validateBeforeSave: false });
 
                 let resetUrl = `${req.protocol}://${req.get("host")}/user/resetPassword/${resetToken}`
@@ -162,7 +161,7 @@ function userController() {
         async getUserDetails(req, res, next) {
             try {
                 let user = await Users.findById(req.user._id);
-                res.status(200).json({ success: true, message:user })
+                res.status(200).json({ success: true, message: user })
             } catch (error) {
                 next(error)
             }
@@ -202,7 +201,7 @@ function userController() {
         async getAllUsers(req, res, next) {
             try {
                 let user = await Users.find({});
-                return res.status(200).json({ success: true, message:user })
+                return res.status(200).json({ success: true, message: user })
             } catch (error) {
                 next(error)
             }
@@ -218,7 +217,7 @@ function userController() {
                     return;
                 }
 
-                return res.status(200).json({ success: true, message:user })
+                return res.status(200).json({ success: true, message: user })
 
             } catch (error) {
                 next(error)

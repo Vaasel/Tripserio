@@ -1,6 +1,8 @@
 const express = require("express");
 require("dotenv").config();
+
 const cors = require("cors")
+
 const app = express()
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -12,17 +14,26 @@ const eventEmitter = new Emitter();
 const userRouter = require("./routes/userRoutes");
 const blogRouter = require("./routes/blogRoutes");
 const tripRouter = require("./routes/TripRoutes.js");
+
 const paymentRouter = require("./routes/paymentRoutes");
 const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 const path = require("path");
 const chatRouter = require("./routes/chatRoutes.js");
 
+
 // cloudinary settings
 require("./middlewares/cloudinary");
 
 // database connection
-require("./db/conn.js")();
+const password = encodeURIComponent("VeWfo5KQ9ZSPtpBy");
+const uri = "mongodb+srv://Harry:" + password + "@vaasel.0ximno3.mongodb.net/Tripserio?retryWrites=true&w=majority";
+
+require("./db/conn.js")(uri);
+
+
+
+
 
 //middlewares
 app.use(cors({ origin: 'http://localhost:3000' }))
@@ -33,6 +44,8 @@ app.use(express.urlencoded({
 }))
 app.use(cookieParser())
 
+
+
 app.use(session({
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
@@ -42,10 +55,14 @@ app.use(session({
 }))
 
 
+
+
 //Routes
+
 app.use("/user", userRouter)
 app.use("/trips", tripRouter)
 app.use("/blog", blogRouter)
+
 app.use("/payment",paymentRouter)
 app.use("/chat", chatRouter)
 
@@ -59,6 +76,7 @@ const server = app.listen(port)
 //socket-io configuration
 const io = require("socket.io")(server);
 require("./utils/socket-io")(io, eventEmitter)
+
 
 app.set("eventEmitter", eventEmitter)
 
