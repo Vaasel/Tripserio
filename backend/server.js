@@ -24,7 +24,8 @@ const chatRouter = require("./routes/chatRoutes.js");
 require("./middlewares/cloudinary");
 
 // database connection
-require("./db/conn.js");
+const {conn,uri} = require("./db/conn.js");
+conn();
 
 
 
