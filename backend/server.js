@@ -17,7 +17,6 @@ const tripRouter = require("./routes/TripRoutes.js");
 
 const paymentRouter = require("./routes/paymentRoutes");
 const errorMiddleware = require("./middlewares/errorMiddleware");
-const path = require("path");
 const chatRouter = require("./routes/chatRoutes.js");
 
 
@@ -25,10 +24,7 @@ const chatRouter = require("./routes/chatRoutes.js");
 require("./middlewares/cloudinary");
 
 // database connection
-const password = encodeURIComponent("VeWfo5KQ9ZSPtpBy");
-const uri = "mongodb+srv://Harry:" + password + "@vaasel.0ximno3.mongodb.net/Tripserio?retryWrites=true&w=majority";
-
-require("./db/conn.js")(uri);
+require("./db/conn.js");
 
 
 
