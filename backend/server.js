@@ -16,7 +16,6 @@ const blogRouter = require("./routes/blogRoutes");
 const tripRouter = require("./routes/TripRoutes.js");
 
 const paymentRouter = require("./routes/paymentRoutes");
-const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middlewares/errorMiddleware");
 const path = require("path");
 const chatRouter = require("./routes/chatRoutes.js");
