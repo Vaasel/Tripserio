@@ -16,4 +16,4 @@ async function dbConnect() {
     }
 
 }
-module.exports = {dbConnect,uri};
+module.exports = dbConnect;

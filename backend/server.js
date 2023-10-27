@@ -3,7 +3,12 @@ require("dotenv").config();
 
 const cors = require("cors")
 
-const app = express()
+const app = express();
+
+
+// database connection
+require("./db/conn.js")();
+
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -23,9 +28,8 @@ const chatRouter = require("./routes/chatRoutes.js");
 // cloudinary settings
 require("./middlewares/cloudinary");
 
-// database connection
-const {conn,uri} = require("./db/conn.js");
-conn();
+
+
 
 
 
@@ -47,7 +51,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
-    store: MongoStore.create({ mongoUrl: uri })
+    store: MongoStore.create({ mongoUrl: "mongodb+srv://Harry:VeWfo5KQ9ZSPtpBy@vaasel.0ximno3.mongodb.net/Tripserio?retryWrites=true&w=majority" })
 }))
 
 
