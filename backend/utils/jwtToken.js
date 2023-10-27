@@ -7,7 +7,6 @@ const jwtToken = (user, res, status) => {
     }
     const { _id: userId, role } = user;
 
-    const { _id: userId, role } = user;
 
     res.status(status).cookie('jwt', token, options)
         .json(
