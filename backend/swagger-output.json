@@ -5,7 +5,7 @@
     "title": "API Documentation",
     "description": "API Documentation for User Routes"
   },
-  "host": "localhost:5000",
+  "host": "https://tripserio-web-app.onrender.com",
   "basePath": "/",
   "tags": [
     {
@@ -15,6 +15,14 @@
     {
       "name": "Trips",
       "description": "API for trips in the system"
+    },
+    {
+      "name": "Blog",
+      "description": "API for blog posts in the system"
+    },
+    {
+      "name": "Payment",
+      "description": "API for payments in the system"
     }
   ],
   "schemes": ["http"],
@@ -439,12 +447,344 @@
           }
         }
       }
+    },
+
+    "/blog/": {
+      "get": {
+        "tags": ["Blog"],
+        "summary": "Get all blogs",
+        "description": "Fetch all blog posts",
+        "operationId": "getBlogs",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Blog"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/blog/addBlog": {
+      "post": {
+        "tags": ["Blog"],
+        "summary": "Add a new blog",
+        "description": "Create a new blog post",
+        "operationId": "addBlog",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "formData",
+            "description": "Blog data",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "featured_image",
+            "in": "formData",
+            "description": "Featured image",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog created successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/blog/getBlog/{id}": {
+      "get": {
+        "tags": ["Blog"],
+        "summary": "Get a single blog",
+        "description": "Fetch a single blog post by ID",
+        "operationId": "getBlog",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          },
+          "404": {
+            "description": "Blog not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/blog/editBlog/{id}": {
+      "put": {
+        "tags": ["Blog"],
+        "summary": "Edit a blog",
+        "description": "Update a blog post",
+        "operationId": "editBlog",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "formData",
+            "description": "Blog data",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "featured_image",
+            "in": "formData",
+            "description": "Featured image",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog updated successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Blog not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/blog/deleteBlog/{id}": {
+      "delete": {
+        "tags": ["Blog"],
+        "summary": "Delete a blog",
+        "description": "Remove a blog post",
+        "operationId": "deleteBlog",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog deleted successfully"
+          },
+          "404": {
+            "description": "Blog not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/payment/stripe": {
+      "post": {
+        "tags": ["Payment"],
+        "summary": "Stripe payment",
+        "description": "Process a payment using Stripe",
+        "operationId": "stripePayment",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "payment",
+            "in": "body",
+            "description": "Payment details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StripePayment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment successful"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/payment/jazzcash": {
+      "post": {
+        "tags": ["Payment"],
+        "summary": "JazzCash payment",
+        "description": "Process a payment using JazzCash",
+        "operationId": "jazzcashPayment",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "payment",
+            "in": "body",
+            "description": "Payment details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/JazzCashPayment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment successful"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/chat/setReceiver": {
+      "post": {
+        "summary": "Set Chat Receiver",
+        "tags": ["Chat"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "receiverId": {
+                    "type": "string"
+                  }
+                },
+                "required": ["receiverId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Receiver set successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/chat/sendMessage": {
+      "post": {
+        "summary": "Send Message",
+        "tags": ["Chat"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message sent successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/chat/prevChats": {
+      "get": {
+        "summary": "Get Previous Chats",
+        "tags": ["Chat"],
+        "responses": {
+          "200": {
+            "description": "Previous chats retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
       "Trip": {
         "type": "object",
+        "required": ["name", "startingDate", "endingDate", "duration", "price"],
         "properties": {
           "_id": {
             "type": "string",
@@ -473,8 +813,61 @@
             "format": "float",
             "example": 1000
           }
+        }
+      },
+      "Blog": {
+        "type": "object",
+        "required": ["data", "featured_image"],
+        "properties": {
+          "data": {
+            "type": "string"
+          },
+          "featured_image": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "definitions":{
+      "StripePayment": {
+        "type": "object",
+        "properties": {
+          "stripeToken": {
+            "type": "string",
+            "description": "Stripe token for the payment"
+          },
+          "totalPrice": {
+            "type": "number",
+            "description": "Total price of the payment"
+          },
+          "paymentDesc": {
+            "type": "string",
+            "description": "Description of the payment"
+          }
         },
-        "required": ["name", "startingDate", "endingDate", "duration", "price"]
+        "required": ["stripeToken", "totalPrice", "paymentDesc"]
+      },
+      "JazzCashPayment": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Amount to be paid"
+          },
+          "mobileNumber": {
+            "type": "string",
+            "description": "Mobile number of the payer"
+          },
+          "cnic": {
+            "type": "string",
+            "description": "CNIC of the payer"
+          },
+          "desc": {
+            "type": "string",
+            "description": "Description of the payment"
+          }
+        },
+        "required": ["amount", "mobileNumber", "cnic", "desc"]
       }
     }
   }
