@@ -1,0 +1,481 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Documentation",
+    "description": "API Documentation for User Routes"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "User",
+      "description": "API for users in the system"
+    },
+    {
+      "name": "Trips",
+      "description": "API for trips in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "paths": {
+    "/user/resetPassword/{token}": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Reset Password",
+        "description": "Reset user's password using a token",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Reset token"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string"
+                },
+                "cPassword": {
+                  "type": "string"
+                }
+              },
+              "required": ["password", "cPassword"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset successfully"
+          },
+          "400": {
+            "description": "Invalid token or passwords do not match"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Logout User",
+        "description": "Logout the current user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Logout successful"
+          },
+          "500": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Register User",
+        "description": "Register a new user",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "cpassword": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                }
+              },
+              "required": ["email", "name", "password", "cpassword"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User registered successfully"
+          },
+          "400": {
+            "description": "All fields must be filled or passwords do not match"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login User",
+        "description": "Login an existing user",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": ["email", "password"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in successfully"
+          },
+          "400": {
+            "description": "Please fill all fields"
+          },
+          "404": {
+            "description": "User does not exist"
+          },
+          "401": {
+            "description": "Invalid email or password"
+          }
+        }
+      }
+    },
+    "/user/forgotPassword": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Forgot Password",
+        "description": "Send a reset password email",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                }
+              },
+              "required": ["email"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email sent successfully"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Error sending email"
+          }
+        }
+      }
+    },
+    "/user/updatePassword": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update Password",
+        "description": "Update password for logged-in user",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "oldPassword": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "cPassword": {
+                  "type": "string"
+                }
+              },
+              "required": ["oldPassword", "password", "cPassword"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password updated successfully"
+          },
+          "401": {
+            "description": "Invalid old password or passwords do not match"
+          }
+        }
+      }
+    },
+    "/user/deleteUser/{id}": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete User",
+        "description": "Delete a user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "400": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get User Details",
+        "description": "Get details of the logged-in user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully"
+          },
+          "500": {
+            "description": "Error retrieving user details"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get All Users",
+        "description": "Get details of all users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "All users retrieved successfully"
+          },
+          "500": {
+            "description": "Error retrieving users"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get Single User",
+        "description": "Get details of a single user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/trips": {
+      "get": {
+        "summary": "Get All Trips",
+        "description": "Retrieves a list of all trips.",
+        "tags": ["Trips"],
+        "responses": {
+          "200": {
+            "description": "A list of trips",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Trip"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trips/addtrip": {
+      "post": {
+        "summary": "Add a Trip",
+        "description": "Adds a new trip.",
+        "tags": ["Trips"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Trip"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trip added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Trip added successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Required fields are missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Required fields are missing"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Trip": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "trip_id"
+          },
+          "name": {
+            "type": "string",
+            "example": "Trip Name"
+          },
+          "startingDate": {
+            "type": "string",
+            "format": "date",
+            "example": "YYYY-MM-DD"
+          },
+          "endingDate": {
+            "type": "string",
+            "format": "date",
+            "example": "YYYY-MM-DD"
+          },
+          "duration": {
+            "type": "integer",
+            "example": 5
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "example": 1000
+          }
+        },
+        "required": ["name", "startingDate", "endingDate", "duration", "price"]
+      }
+    }
+  }
+}

@@ -4,6 +4,8 @@ require("dotenv").config();
 const cors = require("cors")
 
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
 
 
 // database connection
@@ -65,7 +67,7 @@ app.use("/blog", blogRouter)
 
 app.use("/payment",paymentRouter)
 app.use("/chat", chatRouter)
-
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.get("/", (req, res) => {
     res.send("app is working")
 })
